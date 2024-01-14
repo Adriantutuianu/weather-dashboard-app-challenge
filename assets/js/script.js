@@ -25,8 +25,12 @@ function createWeatherCard(data) {
       .addClass("card-text")
       .text(`Temperature: ${temperatureCelsius}°C`);
 
+    //card body wind
+    const wind = data.list[0].wind.speed;
+    const windCity = $("<p>").addClass("card-text").text(`Wind: ${wind} KPH`);
+
     //append to card body
-    cardBody.append(temperatureParagraph);
+    cardBody.append(temperatureParagraph, windCity);
   }
 
   card.append(cardBody);
