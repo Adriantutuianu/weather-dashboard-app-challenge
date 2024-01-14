@@ -29,8 +29,13 @@ function createWeatherCard(data) {
     const wind = data.list[0].wind.speed;
     const windCity = $("<p>").addClass("card-text").text(`Wind: ${wind} KPH`);
 
+    const humidity = data.list[0].main.humidity;
+    const humidityCity = $("<p>")
+      .addClass("card-text")
+      .text(`Humidity: ${humidity} %`);
+
     //append to card body
-    cardBody.append(temperatureParagraph, windCity);
+    cardBody.append(temperatureParagraph, windCity, humidityCity);
   }
 
   card.append(cardBody);
@@ -91,33 +96,3 @@ function updateWeather(data) {
   const card = createWeatherCard(data);
   todayContainer.append(card);
 }
-
-// function updateWeather(data) {
-//   const todayContainer = $("#today");
-
-//   // Clear the previous content
-//   todayContainer.empty();
-
-//   //Create a Bootstrap card
-//   const card = $("<div>").addClass("card");
-
-//   //Display the city name in card header
-//   const cardHeader = $("<div>").addClass("card-header").text(data.city.name);
-//   card.append(cardHeader);
-
-//   // Display temperature in card body
-//   //temp in kelvin
-//   const temperatureKelvin = data.list[0].main.temp;
-//   //temp in celsius
-//   const temperatureCelsius = (temperatureKelvin - 273.15).toFixed(2);
-//   console.log(temperatureCelsius);
-
-//   const cardBody = $("<div>").addClass("card-body");
-//   const temperatureParagraph = $("<p>")
-//     .addClass("card-text")
-//     .text(`Temperature: ${temperatureCelsius}°C`);
-//   cardBody.append(temperatureParagraph);
-
-//   // Append the card to the todayContainer
-//   todayContainer.append(card);
-// }
