@@ -1,6 +1,8 @@
 const searchBtn = $("#search-button");
 const cityInput = $("#search-input");
 const cityForm = $("#search-form");
+const nowDayJs = dayjs().format("DD/MM/YYYY");
+
 const APIkey = "d80a5e97b418450696733535d1602cdf";
 
 const BASE_URL_BY_CITY = `https://api.openweathermap.org/geo/1.0/direct`;
@@ -11,7 +13,9 @@ function createWeatherCard(data) {
   //Card header - city name
   //used if statement to avoid errors in console
   if (data.city && data.city.name) {
-    const cardHeader = $("<div>").addClass("card-header").text(data.city.name);
+    const cardHeader = $("<div>")
+      .addClass("card-header")
+      .text(`${data.city.name} (${nowDayJs})`);
     card.append(cardHeader);
   }
   //card body
