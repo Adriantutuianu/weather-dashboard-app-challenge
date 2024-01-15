@@ -20,11 +20,11 @@ function createWeatherCard(data) {
   }
   //card body
   const cardBody = $("<div>").addClass("card-body");
+
   //card body temperature
   if (data.list && data.list.length > 0 && data.list[0].main) {
     const temperatureKelvin = data.list[0].main.temp;
     const temperatureCelsius = (temperatureKelvin - 273.15).toFixed(2);
-
     const temperatureParagraph = $("<p>")
       .addClass("card-text")
       .text(`Temperature: ${temperatureCelsius}°C`);
@@ -66,7 +66,51 @@ function getCityData(event) {
   event.preventDefault();
   const cityName = cityInput.val();
 
-  const URL_BY_CITY = `${BASE_URL_BY_CITY}?q=${cityName}&appid=${APIkey}`;
+  //save to local storage the city searched
+  saveToLocalStorage(cityName);
+
+  performSearch(cityName);
+
+  // Clear the search input
+  cityInput.val("");
+}
+
+function saveToLocalStorage(city) {
+  // retrieve existing history from local storage
+  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  //add new city to the history
+  history.unshift(city);
+
+  //limit the history to 7 searched cities
+  history = history.slice(0, 7);
+
+  //saved the updated history to local storage
+  localStorage.setItem("searchHistory", JSON.stringify(history));
+
+  // display the updated history
+  displayHistory();
+}
+
+function displayHistory() {
+  //get history container from html
+  const historyContainer = $("#history");
+
+  //clear previous history
+  historyContainer.empty();
+
+  // retrieve the history from local storage
+  const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+  //display each city in a new list item
+  history.forEach(function (city) {
+    const historyItem = $("<li>").addClass("list-group-item").text(city);
+    historyContainer.append(historyItem);
+  });
+}
+
+function performSearch(searchTerm) {
+  const URL_BY_CITY = `${BASE_URL_BY_CITY}?q=${searchTerm}&appid=${APIkey}`;
 
   fetch(URL_BY_CITY)
     .then(function (resp) {
@@ -93,6 +137,7 @@ function getCityData(event) {
 
 cityForm.on("submit", getCityData);
 
+//function update weather card
 function updateWeather(data) {
   const todayContainer = $("#today");
   todayContainer.empty();
@@ -100,3 +145,6 @@ function updateWeather(data) {
   const card = createWeatherCard(data);
   todayContainer.append(card);
 }
+
+//call function to display history
+displayHistory();
