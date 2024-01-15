@@ -1,4 +1,10 @@
+/* input area + search button  */
 .weather-search,
 .search-button {
   height: 40px;
+}
+
+/* history  */
+.custom-hover-style:hover {
+  cursor: pointer; /* Change cursor style on hover if needed */
 }

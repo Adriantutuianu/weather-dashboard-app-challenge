@@ -76,25 +76,28 @@ function getCityData(event) {
 }
 
 function saveToLocalStorage(city) {
-  // retrieve existing history from local storage
-  let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  // check if the city name is not empty - don`t want to display an empty <li>
+  if (city.trim() !== "") {
+    // retrieve existing history from local storage
+    let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
-  //check if the city is already in the history
-  const isAlreadyInHistory = history.includes(city);
+    //check if the city is already in the history
+    const isAlreadyInHistory = history.includes(city);
 
-  //add the city if it is not in the history
-  if (!isAlreadyInHistory) {
-    //add new city to the history
-    history.unshift(city);
+    //add the city if it is not in the history
+    if (!isAlreadyInHistory) {
+      //add new city to the history
+      history.unshift(city);
 
-    //limit the history to 7 searched cities
-    history = history.slice(0, 7);
+      //limit the history to 7 searched cities
+      history = history.slice(0, 7);
 
-    //saved the updated history to local storage
-    localStorage.setItem("searchHistory", JSON.stringify(history));
+      //saved the updated history to local storage
+      localStorage.setItem("searchHistory", JSON.stringify(history));
 
-    // display the updated history
-    displayHistory();
+      // display the updated history
+      displayHistory();
+    }
   }
 }
 function displayHistory() {
@@ -113,7 +116,7 @@ function displayHistory() {
     const capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
 
     const historyItem = $("<li>")
-      .addClass("list-group-item")
+      .addClass("list-group-item list-group-item-action custom-hover-style ")
       .text(capitalizedCity);
 
     //attach a click event listener to each history item
