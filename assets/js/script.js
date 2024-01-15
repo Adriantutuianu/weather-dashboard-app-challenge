@@ -115,6 +115,14 @@ function displayHistory() {
     const historyItem = $("<li>")
       .addClass("list-group-item")
       .text(capitalizedCity);
+
+    //attach a click event listener to each history item
+    historyItem.on("click", function () {
+      // perform a new search for the clicked city
+      performSearch(city);
+    });
+
+    //appent the list item to the history container
     historyContainer.append(historyItem);
   });
 }
