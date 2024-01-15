@@ -8,14 +8,22 @@ const APIkey = "d80a5e97b418450696733535d1602cdf";
 const BASE_URL_BY_CITY = `https://api.openweathermap.org/geo/1.0/direct`;
 
 // Weather card
-function createWeatherCard(data) {
+function createWeatherCard(data, isForecast = false) {
   const card = $("<div>").addClass("card");
   //Card header - city name
   //used if statement to avoid errors in console
   if (data.city && data.city.name) {
+    let date;
+
+    //update date for #forecast
+    if (isForecast) {
+      date = calculateForecastDate(data.list[0].dt_txt);
+    } else {
+      date = nowDayJs;
+    }
     const cardHeader = $("<div>")
       .addClass("card-header")
-      .text(`${data.city.name} (${nowDayJs})`);
+      .text(`${data.city.name} ${date}`);
     card.append(cardHeader);
   }
   //card body
@@ -45,6 +53,15 @@ function createWeatherCard(data) {
   card.append(cardBody);
 
   return card;
+}
+
+// Function to calculate forecast date
+function calculateForecastDate(dateTime) {
+  // dateTime is in the format "yyyy-mm-dd hh:mm:ss"
+  const dateParts = dateTime.split(" ");
+  const date = dateParts[0];
+  const formattedDate = dayjs(date).format("DD/MM/YYYY");
+  return formattedDate;
 }
 
 function getForecastData(lat, lon) {
@@ -177,11 +194,19 @@ function forecastWeather(data) {
   if (data.list && data.list.length > 0) {
     // Iterate over the forecast data for the next 5 days
     for (let i = 1; i < data.list.length; i += 8) {
-      const forecastCard = createWeatherCard({
-        city: data.city,
-        list: [data.list[i]], // Use data for every 8th element (next 24 hours)
-      });
-      forecastContainer.append(forecastCard);
+      // Create a column for each forecast card
+      const forecastCardContainer = $("<div>")
+        .addClass("col mb-3 mt-5 ")
+        .append(
+          createWeatherCard(
+            {
+              city: data.city,
+              list: [data.list[i]], // Use data for every 8th element (next 24 hours)
+            },
+            true //isforecast
+          )
+        );
+      forecastContainer.append(forecastCardContainer);
     }
   }
 }
