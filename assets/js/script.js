@@ -24,6 +24,18 @@ function createWeatherCard(data, isForecast = false) {
     const cardHeader = $("<div>")
       .addClass("card-header")
       .text(`${data.city.name} ${date}`);
+
+    // add weather icon
+    if (data.list && data.list.length > 0 && data.list[0].weather) {
+      const weatherIconCode = data.list[0].weather[0].icon;
+      const weatherIconUrl = `http://openweathermap.org/img/w/${weatherIconCode}.png`;
+      const weatherIcon = $("<img>")
+        .attr("src", weatherIconUrl)
+        .attr("alt", "Weather Icon")
+        .addClass("weather-icon");
+      cardHeader.append(weatherIcon);
+    }
+
     card.append(cardHeader);
   }
   //card body

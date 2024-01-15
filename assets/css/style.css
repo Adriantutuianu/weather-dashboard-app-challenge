@@ -4,12 +4,8 @@ body {
   min-height: 100vh;
 }
 
-/*Container take the available space between header and footer. */
 .container-fluid {
   flex-grow: 1;
-
-  /* .weather-header {
-  height: 60px; /* Adjust the height as needed */
 }
 
 /* input area + search button  */
