@@ -104,7 +104,12 @@ function displayHistory() {
 
   //display each city in a new list item
   history.forEach(function (city) {
-    const historyItem = $("<li>").addClass("list-group-item").text(city);
+    //capitalize first letter of the city => history display
+    const capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
+
+    const historyItem = $("<li>")
+      .addClass("list-group-item")
+      .text(capitalizedCity);
     historyContainer.append(historyItem);
   });
 }
