@@ -19,15 +19,14 @@ body {
   cursor: pointer;
 }
 
-/* Remove the existing styles for the footer */
 footer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 40px;
   border-top: 5px solid black;
-  background-color: #343a40; /* Match the background color of the header */
-  color: white; /* Set the text color to white */
+  background-color: #343a40;
+  color: white;
   font-size: 18px;
 }
 

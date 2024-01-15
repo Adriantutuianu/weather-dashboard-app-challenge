@@ -10,7 +10,6 @@ const BASE_URL_BY_CITY = `https://api.openweathermap.org/geo/1.0/direct`;
 // Weather card
 function createWeatherCard(data, isForecast = false) {
   const card = $("<div>").addClass("card");
-  //Card header - city name
   //used if statement to avoid errors in console
   if (data.city && data.city.name) {
     let date;
@@ -21,6 +20,7 @@ function createWeatherCard(data, isForecast = false) {
     } else {
       date = nowDayJs;
     }
+    //Card header - city name
     const cardHeader = $("<div>")
       .addClass("card-header")
       .text(`${data.city.name} ${date}`);
@@ -52,7 +52,7 @@ function createWeatherCard(data, isForecast = false) {
     //card body wind
     const wind = data.list[0].wind.speed;
     const windCity = $("<p>").addClass("card-text").text(`Wind: ${wind} KPH`);
-
+    //card body humidity
     const humidity = data.list[0].main.humidity;
     const humidityCity = $("<p>")
       .addClass("card-text")
@@ -61,7 +61,6 @@ function createWeatherCard(data, isForecast = false) {
     //append to card body
     cardBody.append(temperatureParagraph, windCity, humidityCity);
   }
-
   card.append(cardBody);
 
   return card;
@@ -84,8 +83,6 @@ function getForecastData(lat, lon) {
       return resp.json();
     })
     .then(function (data) {
-      console.log(data);
-
       // Update the weatherContainer with the forecast data
       updateWeather(data);
 
@@ -102,7 +99,7 @@ function getCityData(event) {
 
   performSearch(cityName);
 
-  // Clear the search input
+  // clear the search input
   cityInput.val("");
 }
 
@@ -131,6 +128,7 @@ function saveToLocalStorage(city) {
     }
   }
 }
+
 function displayHistory() {
   //get history container from html
   const historyContainer = $("#history");
@@ -145,7 +143,7 @@ function displayHistory() {
   history.forEach(function (city) {
     //capitalize first letter of the city => history display
     const capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
-
+    //add class + text
     const historyItem = $("<li>")
       .addClass("list-group-item list-group-item-action custom-hover-style ")
       .text(capitalizedCity);
@@ -169,15 +167,11 @@ function performSearch(searchTerm) {
       return resp.json();
     })
     .then(function (data) {
-      console.log(data);
+      // get lan and lon
       const lat = data[0].lat;
       const lon = data[0].lon;
 
       getForecastData(lat, lon);
-
-      //get lan and lon
-      console.log("Latitude: ", lat.toFixed(2));
-      console.log("Longitude: ", lon.toFixed(2));
 
       updateWeather(data);
     });
@@ -202,9 +196,9 @@ function forecastWeather(data) {
   const forecastContainer = $("#forecast");
   forecastContainer.empty();
 
-  // Check if data.list is defined and has a length
+  // check if data.list is defined and has a length
   if (data.list && data.list.length > 0) {
-    // Iterate over the forecast data for the next 5 days
+    // iterate over the forecast data for the next 5 days
     for (let i = 1; i < data.list.length; i += 8) {
       // Create a column for each forecast card
       const forecastCardContainer = $("<div>")
@@ -218,6 +212,8 @@ function forecastWeather(data) {
             true //isforecast
           )
         );
+      forecastCardContainer.find(".card-body").addClass("text-white bg-dark");
+
       forecastContainer.append(forecastCardContainer);
     }
   }
