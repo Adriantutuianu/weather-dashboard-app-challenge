@@ -79,19 +79,24 @@ function saveToLocalStorage(city) {
   // retrieve existing history from local storage
   let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
-  //add new city to the history
-  history.unshift(city);
+  //check if the city is already in the history
+  const isAlreadyInHistory = history.includes(city);
 
-  //limit the history to 7 searched cities
-  history = history.slice(0, 7);
+  //add the city if it is not in the history
+  if (!isAlreadyInHistory) {
+    //add new city to the history
+    history.unshift(city);
 
-  //saved the updated history to local storage
-  localStorage.setItem("searchHistory", JSON.stringify(history));
+    //limit the history to 7 searched cities
+    history = history.slice(0, 7);
 
-  // display the updated history
-  displayHistory();
+    //saved the updated history to local storage
+    localStorage.setItem("searchHistory", JSON.stringify(history));
+
+    // display the updated history
+    displayHistory();
+  }
 }
-
 function displayHistory() {
   //get history container from html
   const historyContainer = $("#history");
