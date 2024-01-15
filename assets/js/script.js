@@ -59,6 +59,8 @@ function getForecastData(lat, lon) {
 
       // Update the weatherContainer with the forecast data
       updateWeather(data);
+
+      forecastWeather(data);
     });
 }
 
@@ -148,11 +150,7 @@ function performSearch(searchTerm) {
       console.log("Latitude: ", lat.toFixed(2));
       console.log("Longitude: ", lon.toFixed(2));
 
-      const todayContainer = $("#today");
-      todayContainer.empty();
-
-      const card = createWeatherCard(data);
-      todayContainer.append(card);
+      updateWeather(data);
     });
 }
 
@@ -169,3 +167,21 @@ function updateWeather(data) {
 
 //call function to display history
 displayHistory();
+
+//function forecast weather card
+function forecastWeather(data) {
+  const forecastContainer = $("#forecast");
+  forecastContainer.empty();
+
+  // Check if data.list is defined and has a length
+  if (data.list && data.list.length > 0) {
+    // Iterate over the forecast data for the next 5 days
+    for (let i = 1; i < data.list.length; i += 8) {
+      const forecastCard = createWeatherCard({
+        city: data.city,
+        list: [data.list[i]], // Use data for every 8th element (next 24 hours)
+      });
+      forecastContainer.append(forecastCard);
+    }
+  }
+}
