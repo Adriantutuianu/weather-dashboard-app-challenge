@@ -28,7 +28,7 @@ function createWeatherCard(data, isForecast = false) {
     // add weather icon
     if (data.list && data.list.length > 0 && data.list[0].weather) {
       const weatherIconCode = data.list[0].weather[0].icon;
-      const weatherIconUrl = `http://openweathermap.org/img/w/${weatherIconCode}.png`;
+      const weatherIconUrl = `https://openweathermap.org/img/w/${weatherIconCode}.png`;
       const weatherIcon = $("<img>")
         .attr("src", weatherIconUrl)
         .attr("alt", "Weather Icon")
