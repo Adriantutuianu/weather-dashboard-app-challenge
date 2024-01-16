@@ -196,13 +196,17 @@ function forecastWeather(data) {
   const forecastContainer = $("#forecast");
   forecastContainer.empty();
 
+  // Display the forecast heading
+  const forecastHeading = $("<h4>").text("5 Days Forecast:");
+  forecastContainer.append(forecastHeading);
+
   // check if data.list is defined and has a length
   if (data.list && data.list.length > 0) {
     // iterate over the forecast data for the next 5 days
     for (let i = 1; i < data.list.length; i += 8) {
       // Create a column for each forecast card
       const forecastCardContainer = $("<div>")
-        .addClass("col mb-3 mt-5 ")
+        .addClass("col mb-3  mt-1")
         .append(
           createWeatherCard(
             {
